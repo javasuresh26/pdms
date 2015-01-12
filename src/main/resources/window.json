@@ -1,0 +1,16 @@
+[
+  {
+    "menuTitle": "File",
+    "mnemonic": "f",
+    "menuItem": [
+      {
+        "className": "com.pdms.view.SampleJInternalFrame",
+        "imageIcon": "",
+        "menuTitle": "Sample",
+        "shortcut": "CTRL+F",
+        "separator":false
+      }
+    ]
+  }
+]
+
