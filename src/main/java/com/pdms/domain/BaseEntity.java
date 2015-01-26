@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BaseEntity {
 
-    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME", updatable = false)
+    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 

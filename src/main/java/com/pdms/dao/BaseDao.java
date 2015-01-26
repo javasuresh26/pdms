@@ -28,9 +28,6 @@ public abstract class BaseDao {
         this.hibernateTemplate = hibernateTemplate;
     }
     
-    
-
-
     public <T> void insert(T obj) throws Exception{        
         hibernateTemplate.save(obj);   
         

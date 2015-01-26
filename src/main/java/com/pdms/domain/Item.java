@@ -36,7 +36,7 @@ public class Item {
     @Length(max = 20)
     private String type;
     
-    @Column(name = "createdDate", nullable = false, columnDefinition = "DATETIME", updatable = false)
+    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 

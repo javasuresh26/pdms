@@ -31,8 +31,7 @@ public class Employee {
     @Length(max = 50)
     private String name;
 
-    @Column(name = "mobileno", nullable = false)
-    @Length(max = 10, min = 10)
+    @Column(name = "mobileno", nullable = false,length = 10)
     private String mobileNo;
 
     @Column(name = "createdDate", nullable = false, columnDefinition = "DATETIME", updatable = false)

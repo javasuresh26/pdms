@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pdms.view;
+package com.pdms.frame;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.FileNotFoundException;
 
 /**

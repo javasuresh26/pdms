@@ -1,16 +1,29 @@
 [
-  {
-    "menuTitle": "File",
-    "mnemonic": "f",
-    "menuItem": [
-      {
-        "className": "com.pdms.view.SampleJInternalFrame",
-        "imageIcon": "",
-        "menuTitle": "Sample",
-        "shortcut": "CTRL+F",
-        "separator":false
-      }
-    ]
-  }
+    {
+        "menuTitle": "File",
+        "mnemonic": "f",
+        "menuItem": [
+            {
+                "className": "com.pdms.view.AddBooks",
+                "imageIcon": "images/Add16.gif",
+                "menuTitle": "Sample",
+                "shortcut": "CTRL-F",
+                "separator": false
+            }
+        ]
+    },
+    {
+        "menuTitle": "File1",
+        "mnemonic": "i",
+        "menuItem": [
+            {
+                "className": "com.pdms.view.AddStudents",
+                "imageIcon": "images/Add16.gif",
+                "menuTitle": "Sample1",
+                "shortcut": "CTRL-g",
+                "separator": false
+            }
+        ]
+    }
 ]
 

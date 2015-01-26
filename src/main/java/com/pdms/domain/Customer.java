@@ -27,7 +27,6 @@ public class Customer extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue
-    
     private long id;
 
     @Column(name = "name", nullable = false)
@@ -46,7 +45,7 @@ public class Customer extends BaseEntity implements Serializable {
     @Length(max = 10, min = 10)
     private String mobileNo;
 
-    @Column(name = "stdCode")
+    @Column(name = "std_code")
     @Length(max = 6)
     private String stdCode;
 
@@ -54,7 +53,7 @@ public class Customer extends BaseEntity implements Serializable {
     @Length(max = 10)
     private String landline;
 
-    @Column(name = "amountBalance", nullable = false, scale = 2)
+    @Column(name = "amount_balance", nullable = false, scale = 2)
     private double amountBalance;
 
     @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME", updatable = false)
@@ -65,12 +64,11 @@ public class Customer extends BaseEntity implements Serializable {
     //@Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
 
-    @Column(name = "createdBy")
+    @Column(name = "createdby",length = 50, insertable = false,updatable = false)
     @Length(max = 50)
     private String createdBy;
 
-    @Column(name = "modifiedBy")
-    @Length(max = 50)
+    @Column(name = "createdby",length = 50, insertable = false,updatable = false)
     private String modifiedBy;
     
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT", length = 1)
