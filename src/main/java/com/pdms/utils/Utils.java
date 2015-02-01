@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.KeyStroke;
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,23 +23,26 @@ public class Utils {
 
     String actionKey;
     String keyValue;
-    Class entityClass;
-
-    public void setEntityClass(Class entityClass) {
-        this.entityClass = entityClass;
-    }
+//    Class entityClass;
+//
+//    public void setEntityClass(Class entityClass) {
+//        this.entityClass = entityClass;
+//    }
 
     public <T> T createInstance(Class<T> entityClass) throws Exception {
         T instance = null;
         instance = entityClass.newInstance();
         return instance;
     }
-
+    
+    public DetachedCriteria createCriteria(Class entityClass){
+        return DetachedCriteria.forClass(entityClass);
+    }
     public Object createInstanceAs(String entity) {
         try {
-            entityClass = Class.forName(entity);
+            Class entityClass = Class.forName(entity);
             return entityClass.newInstance();
-        } catch (Exception ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             System.out.println(ex);
         }
         return new Object();
@@ -73,7 +77,7 @@ public class Utils {
     }
     
     public static String getDoubleValueAsMoney(double value){
-        DecimalFormat format= new DecimalFormat("###,###.##");
+        DecimalFormat format= new DecimalFormat("######.##");
         format.setMinimumFractionDigits(2);
         return format.format(value);
     } 

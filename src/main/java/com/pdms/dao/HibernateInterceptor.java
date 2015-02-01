@@ -6,8 +6,11 @@
 package com.pdms.dao;
 
 import com.pdms.domain.BaseEntity;
+import com.pdms.domain.User;
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import org.hibernate.EmptyInterceptor;
 
@@ -16,64 +19,35 @@ import org.hibernate.EmptyInterceptor;
  * @author Suresh
  */
 public class HibernateInterceptor extends EmptyInterceptor {
-    private int updates;
-    private int creates;
-    private int loads;
 
-    public void onDelete(Object entity,
-            Serializable id,
-            Object[] state,
-            String[] propertyNames,
-            Type[] types) {
-        // do nothing
+    @Override
+    public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, org.hibernate.type.Type[] types) {
+        super.onDelete(entity, id, state, propertyNames, types); //To change body of generated methods, choose Tools | Templates.
     }
 
-    // This method is called when Employee object gets updated.
-    public boolean onFlushDirty(Object entity,
-            Serializable id,
-            Object[] currentState,
-            Object[] previousState,
-            String[] propertyNames,
-            Type[] types) {
-        if (entity instanceof BaseEntity) {
-            System.out.println("Update Operation");
-            return true;
-        }
-        return false;
-    }
-
-    public boolean onLoad(Object entity,
-            Serializable id,
-            Object[] state,
-            String[] propertyNames,
-            Type[] types) {
-        // do nothing
+    @Override
+    public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, org.hibernate.type.Type[] types) {
+        setValue(currentState, propertyNames, "modifiedDate", new Date());
+        setValue(currentState, propertyNames, "modifiedBy", User.getCurrentUserName());
         return true;
     }
 
-    // This method is called when Employee object gets created.
+    @Override
+    public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, org.hibernate.type.Type[] types) {
+        setValue(state, propertyNames, "createdDate", new Date());
+        setValue(state, propertyNames, "modifiedDate", new Date());
+        setValue(state, propertyNames, "createdBy", User.getCurrentUserName());
+        setValue(state, propertyNames, "modifiedBy", User.getCurrentUserName());
+        return true;
+    }
 
-    public boolean onSave(Object entity,
-            Serializable id,
-            Object[] state,
-            String[] propertyNames,
-            Type[] types) {
-        if (entity instanceof BaseEntity) {
-            System.out.println("Create Operation");
-            return true;
+    private void setValue(Object[] currentState, String[] propertyNames,
+            String propertyToSet, Object value) {
+        int index = Arrays.asList(propertyNames).indexOf(propertyToSet);
+        if (index >= 0) {
+            currentState[index] = value;
         }
-        return false;
+
     }
 
-    //called before commit into database
-
-    public void preFlush(Iterator iterator) {
-        System.out.println("preFlush");
-    }
-
-    //called after committed into database
-
-    public void postFlush(Iterator iterator) {
-        System.out.println("postFlush");
-    }
 }

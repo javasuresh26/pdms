@@ -36,7 +36,7 @@ public class SampleTestFrame extends javax.swing.JFrame {
      */
     public SampleTestFrame() {
         initComponents();
-        CustomerDisplay customerDisplay = new CustomerDisplay(10, "heddllo", "sss", "1212", "sdfsd", "dsfd", "sdfds");
+        CustomerDisplay customerDisplay = new CustomerDisplay(10, "heddllo", "sss", "1212", "sdfsd", "dsfd", "sdfds","10.0",true);
         ArrayList<CustomerDisplay> list = new ArrayList<>();
         list.add(customerDisplay);
         list.add(customerDisplay);

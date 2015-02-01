@@ -23,8 +23,8 @@ import javax.persistence.TemporalType;
  * @author Suresh
  */
 
-@Entity
-@Table(name = "invoice")
+//@Entity
+//@Table(name = "invoice")
 public class Invoice {
     @Id
     @GeneratedValue

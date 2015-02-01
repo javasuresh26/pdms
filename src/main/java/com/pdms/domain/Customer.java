@@ -14,20 +14,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 
 /**
  *
  * @author Suresh
  */
-
 @Entity
 @Table(name = "customer")
 public class Customer extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue
-    private long id;
+    private int id;
 
     @Column(name = "name", nullable = false)
     @Length(max = 50)
@@ -61,25 +61,39 @@ public class Customer extends BaseEntity implements Serializable {
     private Date createdDate;
 
     @Column(name = "modified_date", nullable = false, columnDefinition = "DATETIME")
-    //@Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
 
-    @Column(name = "createdby",length = 50, insertable = false,updatable = false)
+    @Column(name = "createdby",length = 50)
     @Length(max = 50)
     private String createdBy;
 
-    @Column(name = "createdby",length = 50, insertable = false,updatable = false)
+    @Column(name = "modifiedby",length = 50)
     private String modifiedBy;
-    
-    @Column(name = "status", nullable = false, columnDefinition = "TINYINT", length = 1)
+
+    @Column(name = "status", nullable = false, columnDefinition = "BIT")
     private boolean status;
+
+    public Customer() {
+    }
+
     
-    
-    public long getId() {
+    public Customer(String name, String address, String pincode, String mobileNo, String stdCode, String landline, double amountBalance, boolean status) {
+        this.name = name;
+        this.address = address;
+        this.pincode = pincode;
+        this.mobileNo = mobileNo;
+        this.stdCode = stdCode;
+        this.landline = landline;
+        this.amountBalance = amountBalance;
+        this.status = status;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -194,4 +208,5 @@ public class Customer extends BaseEntity implements Serializable {
         return "Customer{" + "id=" + id + ", name=" + name + ", address=" + address + ", pincode=" + pincode + ", mobileNo=" + mobileNo + ", stdCode=" + stdCode + ", landline=" + landline + ", amountBalance=" + amountBalance + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate + ", createdBy=" + createdBy + ", modifiedBy=" + modifiedBy + ", status=" + status + '}';
     }
 
+    
 }

@@ -6,6 +6,7 @@
 package com.pdms.view;
 
 import com.pdms.domain.Customer;
+import com.pdms.utils.Utils;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Temporal;
@@ -18,18 +19,20 @@ import org.hibernate.validator.constraints.Length;
  */
 public class CustomerDisplay {
 
-    private long id;
+    private int id;
     private String name;
     private String address;
     private String pincode;
     private String mobileNo;
     private String stdCode;
     private String landline;
+    private String amountBalance;
+    private boolean status;
 
     public CustomerDisplay() {
     }
 
-    public CustomerDisplay(long id, String name, String address, String pincode, String mobileNo, String stdCode, String landline) {
+    public CustomerDisplay(int id, String name, String address, String pincode, String mobileNo, String stdCode, String landline, String amountBalance, boolean status) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -37,8 +40,10 @@ public class CustomerDisplay {
         this.mobileNo = mobileNo;
         this.stdCode = stdCode;
         this.landline = landline;
+        this.status = status;
+        this.amountBalance = amountBalance;
     }
-    
+
     public CustomerDisplay(Customer customer) {
         this.id = customer.getId();
         this.name = customer.getName();
@@ -47,13 +52,15 @@ public class CustomerDisplay {
         this.mobileNo = customer.getMobileNo();
         this.stdCode = customer.getStdCode();
         this.landline = customer.getLandline();
+        this.amountBalance = Utils.getDoubleValueAsMoney(customer.getAmountBalance());
+        this.status = customer.isStatus();
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -104,4 +111,21 @@ public class CustomerDisplay {
     public void setLandline(String landline) {
         this.landline = landline;
     }
+
+    public String getAmountBalance() {
+        return amountBalance;
+    }
+
+    public void setAmountBalance(String amountBalance) {
+        this.amountBalance = amountBalance;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }

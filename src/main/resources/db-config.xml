@@ -34,9 +34,10 @@
         <property name="entityInterceptor">
             <bean class="com.pdms.dao.HibernateInterceptor"/>
         </property>
+        
     </bean>
-    <bean id="transactionManager"
-          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
         <property name="sessionFactory">
             <ref bean="sessionFactory" />
         </property>
@@ -50,5 +51,5 @@
     <tx:annotation-driven transaction-manager="txnManager"/>
     
     <!-- Apply persistence exception translation on @Repository classes -->
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <!--    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>-->
 </beans>

@@ -5,14 +5,12 @@
  */
 package com.pdms.main;
 
-import com.pdms.dao.CustomerDaoImpl;
-import com.pdms.domain.Customer;
-import com.pdms.frame.MainWindowFrame;
-import org.springframework.beans.factory.annotation.Value;
+import com.pdms.frame.MainWindow;
+import com.pdms.service.CustomerServiceImpl;
+import javax.swing.UIManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
-
 
 /**
  *
@@ -23,8 +21,8 @@ public class Main {
     
     private String name;
     
-    public static void main(String args[]) throws Exception{
-       //Session session = HibernateUtil.getSessionFactory().openSession();
+    public static void main(String args[]) throws Exception {
+        //Session session = HibernateUtil.getSessionFactory().openSession();
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         //new MainWindowFrame();
         //CustomerDaoImpl sss = new CustomerDaoImpl();
@@ -33,17 +31,33 @@ public class Main {
         //sss.insert(obj);
         //System.out.println(obj);
         //System.out.println(ClassLoader.getSystemResource(""));
-        Main main = new Main();
-        System.out.println("Display: "+main.getName());
-    }
-    
-    @Value("${jdbc.username}")
-    public String getName() {
-        return name;
-    }
+        CustomerServiceImpl csi = context.getBean(CustomerServiceImpl.class);
 
-    public void setName(String name) {
-        this.name = name;
+//        Customer customer = new Customer();
+//        customer.setId(18);        
+//        csi.delete(customer);
+//        
+//        List<Customer> customers = csi.getAll();
+//        for (Customer customer : customers) {
+//            System.out.println(customer);
+//        }
+//        Customer customer = customers.get(0);
+//        
+//        customer.setId(19);        
+//        csi.update(customer);
+        
+//        Customer customer  = new Customer();
+//        customer.setId(19);
+//        customer.setLandline("04177");
+        //csi.merge(customer);
+        //System.out.println(csi.getByCriteria("sd%"));
+        //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
+        MainWindow mainWindow = new MainWindow(csi);
+
+    
+    
+    
+    
     }
     
 }

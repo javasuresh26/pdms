@@ -15,7 +15,6 @@ public class ServiceResponse<T> {
 
     private T response;
     private ArrayList<Exception> errors = new ArrayList<>();
-    private int totalCount = 0;
 
     public ServiceResponse() {
     }
@@ -37,7 +36,4 @@ public class ServiceResponse<T> {
         errors.add(error);
     }
 
-    public int getTotalCount() {
-        return totalCount;
-    }
 }

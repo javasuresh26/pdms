@@ -19,8 +19,8 @@ import org.hibernate.validator.constraints.Length;
  *
  * @author Suresh
  */
-@Entity
-@Table(name = "employee")
+//@Entity
+//@Table(name = "employee")
 public class Employee {
 
     @Id

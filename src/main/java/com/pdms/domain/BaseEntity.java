@@ -16,30 +16,30 @@ import org.springframework.stereotype.Component;
  * @author Suresh
  */
 @Component
-public class BaseEntity {
+public abstract class BaseEntity {
 
-    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-
-    @Column(name = "modified_date", nullable = false, columnDefinition = "DATETIME")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedDate;
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
+//    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME")
+//    @Temporal(TemporalType.TIMESTAMP)
+//    public Date createdDate;
+//
+//    @Column(name = "modified_date", nullable = false, columnDefinition = "DATETIME")
+//    @Temporal(TemporalType.TIMESTAMP)    
+//    public Date modifiedDate;
+//
+//    public Date getCreatedDate() {
+//        return createdDate;
+//    }
+//
+//    public void setCreatedDate(Date createdDate) {
+//        this.createdDate = createdDate;
+//    }
+//
+//    public Date getModifiedDate() {
+//        return modifiedDate;
+//    }
+//
+//    public void setModifiedDate(Date modifiedDate) {
+//        this.modifiedDate = modifiedDate;
+//    }
     
 }

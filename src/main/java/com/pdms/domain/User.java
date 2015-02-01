@@ -10,5 +10,15 @@ package com.pdms.domain;
  * @author Suresh
  */
 public class User {
-    
+
+    private static String currentUserName = "Admin1";
+
+    public synchronized static String getCurrentUserName() {
+        return currentUserName;
+    }
+
+    public synchronized static void setCurrentUserName(String currentUserName) {
+        User.currentUserName = currentUserName;
+    }
+
 }

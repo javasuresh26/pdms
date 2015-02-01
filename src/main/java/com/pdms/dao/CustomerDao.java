@@ -6,11 +6,17 @@
 package com.pdms.dao;
 
 import com.pdms.domain.Customer;
+import com.pdms.utils.RequestParam;
+import java.util.List;
 
 /**
  *
  * @author Suresh
  */
 public interface CustomerDao {
-    public void insert(Customer customer) throws Exception;
+    void insert(Customer customer) throws Exception;
+    void delete(Customer customer);
+    List<Customer> getAll();
+    void update(Customer customer);
+    List<Customer> get(RequestParam requestParam);
 }

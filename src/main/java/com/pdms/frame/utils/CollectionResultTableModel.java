@@ -19,10 +19,10 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CollectionResultTableModel<T> extends AbstractTableModel {
 
-    Class<T> entityClass;
-    List<T> collections;
-    Map<String, Class> columnNamesWithClass;
-    ArrayList<String> columnNames;
+    private Class<T> entityClass;
+    private List<T> collections;
+    private Map<String, Class> columnNamesWithClass;
+    private ArrayList<String> columnNames;
     int noOfColmn;
 
     public CollectionResultTableModel(List<T> collection, Class<T> entityClass) {
@@ -109,4 +109,13 @@ public class CollectionResultTableModel<T> extends AbstractTableModel {
         methodName.append(postMethodName);
         return methodName.toString();
     }
+
+    public ArrayList<String> getColumnNames() {
+        return columnNames;
+    }
+
+    public int getColumnIndex(String columnName) {
+       return columnName.indexOf(columnName);
+    }
+    
 }
