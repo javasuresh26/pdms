@@ -128,4 +128,9 @@ public class CustomerDisplay {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "CustomerDisplay{" + "id=" + id + ", name=" + name + ", address=" + address + ", pincode=" + pincode + ", mobileNo=" + mobileNo + ", stdCode=" + stdCode + ", landline=" + landline + ", amountBalance=" + amountBalance + ", status=" + status + '}';
+    }
+
 }

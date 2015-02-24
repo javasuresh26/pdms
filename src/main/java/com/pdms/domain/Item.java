@@ -6,10 +6,19 @@
 package com.pdms.domain;
 
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,32 +35,39 @@ public class Item {
     
     @Id
     @GeneratedValue
-    private Long id;
+    private int id;
 
     @Column(name = "name", nullable = false)
     @Length(max = 20)
     private String name;
     
-    @Column(name = "type", nullable = false)
-    @Length(max = 20)
-    private String type;
+    @Column(name = "type",columnDefinition = "enum('DAILYPAPER','MAGAZINE')")
+    @Enumerated(EnumType.STRING)
+    private ItemType type;
     
-    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME", updatable = false)
+    @Column(name = "active_days", nullable = false)
+    @Length(max = 20)
+    private int activeDays;
+    
+    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
     @Column(name = "modified_date", nullable = false, columnDefinition = "DATETIME")
-    //@Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
     
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT", length = 1)
     private boolean status;
 
-    public Long getId() {
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "item")
+    private List<ItemPrice> itemPrices; 
+    
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -63,13 +79,22 @@ public class Item {
         this.name = name;
     }
 
-    public String getType() {
+    public ItemType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
+
+    public int getActiveDays() {
+        return activeDays;
+    }
+
+    public void setActiveDays(int activeDays) {
+        this.activeDays = activeDays;
+    }
+
 
     public Date getCreatedDate() {
         return createdDate;
@@ -105,9 +130,17 @@ public class Item {
         return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void setItemPrices(List<ItemPrice> itemPrices) {
+        this.itemPrices = itemPrices;
+    }
+
+    public List<ItemPrice> getItemPrices() {
+        return itemPrices;
+    }
+
     @Override
     public String toString() {
-        return "Item{" + "id=" + id + ", name=" + name + ", type=" + type + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate + ", status=" + status + '}';
+        return "Item{" + "id=" + id + ", name=" + name + ", type=" + type + ", activeDays=" + activeDays + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate + ", status=" + status + '}';
     }
-    
+
 }

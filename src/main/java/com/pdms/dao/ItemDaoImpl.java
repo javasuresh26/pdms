@@ -5,8 +5,9 @@
  */
 package com.pdms.dao;
 
-import com.pdms.domain.Customer;
 import com.pdms.dao.utils.RequestParam;
+import com.pdms.domain.Item;
+import com.pdms.domain.Item;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,42 +18,41 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Suresh
  */
 @Repository
-//@Transactional
-public class CustomerDaoImpl extends BaseDao implements CustomerDao {
+public class ItemDaoImpl extends BaseDao implements ItemDao{
 
     @Autowired
     public void setEntityClass() {
-        super.entityClass = Customer.class;
+        super.entityClass = Item.class;
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void insert(Customer customer) throws Exception {
-        super.insert(customer);
+    public void insert(Item item) throws Exception {
+        super.insert(item);
     }
 
     @Override
     @Transactional
-    public List<Customer> getAll() {
-        return (List<Customer>) super.getAll();
+    public List<Item> getAll() {
+        return (List<Item>) super.getAll();
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void delete(Customer customer) {
-        super.delete(customer);
+    public void delete(Item item) {
+        super.delete(item);
     }
 
     @Override
     @Transactional(readOnly = false)
-    public void update(Customer customer) {
-        super.update(customer);
+    public void update(Item item) {
+        super.update(item);
     }
 
     @Override
     @Transactional
-    public List<Customer> get(RequestParam requestParam) {
-        return (List<Customer>) super.get(requestParam);
+    public List<Item> get(RequestParam requestParam) {
+        return (List<Item>) super.get(requestParam);
     }
-
+    
 }

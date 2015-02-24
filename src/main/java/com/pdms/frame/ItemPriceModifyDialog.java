@@ -5,43 +5,51 @@
  */
 package com.pdms.frame;
 
+import com.pdms.domain.ItemType;
 import com.pdms.frame.utils.ImagePanel;
 import com.pdms.frame.utils.MdlFunctions;
 import com.pdms.frame.utils.WindowUtils;
-import com.pdms.service.CustomerService;
-import com.pdms.view.CustomerDisplay;
+import com.pdms.service.ItemService;
+import com.pdms.utils.DateUtils;
+import static com.pdms.utils.DateUtils.getJDatePicker;
+import com.pdms.view.ItemDisplay;
+import com.pdms.view.ItemPriceDisplay;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 
 /**
  *
  * @author Suresh
  */
-public class CustomerDialog extends JDialog {
+public class ItemPriceModifyDialog extends JDialog {
 
     private WindowUtils windowUtils = new WindowUtils();
     private MdlFunctions mdlFunctions = new MdlFunctions();
 
-    private CustomerService customerService;
-    private CustomerDisplay display;
-    private final int componentCount = 7;
-    
+    private ItemService itemService;
+    private ItemPriceDisplay display;
+
+    private final int componentCount = 3;
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
     JPanel jpnlMain = new JPanel();
@@ -49,49 +57,41 @@ public class CustomerDialog extends JDialog {
     JPanel centerPanel = new JPanel();
     JPanel southPanel = new JPanel(new FlowLayout());
 
-    JLabel lblIcon = new JLabel(windowUtils.getImageIcon("images/ListBarrowers.gif"));
+    JLabel lblIcon = new JLabel(windowUtils.getImageIcon("images/price_list.gif"));
     JLabel lblCaption = new JLabel("IMPORTANT: Text Fields must not empty.");
 
     JButton btnUpdate = new JButton("Update", windowUtils.getImageIcon("images/save.gif"));
     JButton btnReset = new JButton("Reset", windowUtils.getImageIcon("images/reset.gif"));
     JButton btnCancel = new JButton("Cancel", windowUtils.getImageIcon("images/cancel.gif"));
 
-    JLabel lblName = new JLabel("Name:*");
-    JLabel lblAddress = new JLabel("Address:*");
-    JLabel lblPincode = new JLabel("Pincode:*");
-    JLabel lblMobileNo = new JLabel("MobileNo:*");
-    JLabel lblStdCode = new JLabel("StdCode:");
-    JLabel lblLandline = new JLabel("Landline:");
-    JLabel lblAmountBalance = new JLabel("AmountBalance:*");
+    JLabel lblStartDate = new JLabel("Start Date:*");
+    JLabel lblEndDate = new JLabel("End Date:*");
+    JLabel lblPrice = new JLabel("Price:*");
 
-    JTextField txtName = new JTextField();
-    JTextField txtAddress = new JTextField();
-    JTextField txtPincode = new JTextField();
-    JTextField txtMobileNo = new JTextField();
-    JTextField txtStdCode = new JTextField();
-    JTextField txtLandline = new JTextField();
-    JTextField txtAmountBalance = new JTextField();
+    JDatePickerImpl dtpStartDate = DateUtils.getJDatePicker();
+    JDatePickerImpl dtpEndDate = DateUtils.getJDatePicker();
+    JTextField txtPrice = new JTextField();
 
     boolean isUpdate;
 
-    public CustomerDialog(JFrame frame, boolean isUpdate, int customerId, CustomerService customerService) throws Exception {
+    public ItemPriceModifyDialog(JFrame frame, boolean isUpdate, int itemId,List<ItemPriceDisplay> itemPriceDisplays,ItemService itemService) throws Exception {
 
         super(frame, true);
-        setIconImage(windowUtils.getImageIcon("images/ListBarrowers.gif").getImage());
+        setIconImage(windowUtils.getImageIcon("images/price.gif").getImage());
 
-        this.customerService = customerService;
+        this.itemService = itemService;
         this.isUpdate = isUpdate;
 
-        display = new CustomerDisplay();
-        display.setId(customerId);
+        display = new ItemPriceDisplay();
+        display.setId(itemId);
 
         if (isUpdate == true) {
             btnUpdate.setText("Save");
-            display = customerService.getCustomerDisplay(display.getId());
-            loadCustomer();
-            setTitle("Edit Customer Deatils");
+            display = itemService.getItemDisplay(display.getId());
+            loadItem();
+            setTitle("Edit Item Price Deatils");
         } else {
-            setTitle("New Customer Deatils");
+            setTitle("New Item Price Deatils");
             btnUpdate.setText("Add");
         }
 
@@ -106,26 +106,14 @@ public class CustomerDialog extends JDialog {
         pnlLabel.setBackground(Color.WHITE);
         pnlfield.setBackground(Color.WHITE);
 
-        pnlLabel.add(mdlFunctions.setJLabel(lblName));
-        pnlfield.add(mdlFunctions.setJTextField(txtName));
+        pnlLabel.add(mdlFunctions.setJLabel(lblStartDate));
+        pnlfield.add(dtpStartDate);
 
-        pnlLabel.add(mdlFunctions.setJLabel(lblAddress));
-        pnlfield.add(mdlFunctions.setJTextField(txtAddress));
+        pnlLabel.add(mdlFunctions.setJLabel(lblEndDate));
+        pnlfield.add(dtpEndDate);
 
-        pnlLabel.add(mdlFunctions.setJLabel(lblPincode));
-        pnlfield.add(mdlFunctions.setJTextField(txtPincode));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblMobileNo));
-        pnlfield.add(mdlFunctions.setJTextField(txtMobileNo));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblStdCode));
-        pnlfield.add(mdlFunctions.setJTextField(txtStdCode));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblLandline));
-        pnlfield.add(mdlFunctions.setJTextField(txtLandline));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblAmountBalance));
-        pnlfield.add(mdlFunctions.setJTextField(txtAmountBalance));
+        pnlLabel.add(mdlFunctions.setJLabel(lblPrice));
+        pnlfield.add(mdlFunctions.setJTextField(txtPrice));
 
         centerPanel.add(BorderLayout.WEST, pnlLabel);
         centerPanel.add(BorderLayout.EAST, pnlfield);
@@ -156,16 +144,6 @@ public class CustomerDialog extends JDialog {
         jpnlMain.add(centerPanel, BorderLayout.CENTER);
         jpnlMain.add(southPanel, BorderLayout.SOUTH);
 
-//        GridBagConstraints bagConstraints = new GridBagConstraints();
-//        bagConstraints.fill = GridBagConstraints.PAGE_START;
-//        bagConstraints.gridx = 0;
-//        bagConstraints.gridy = 0;
-//        
-//
-//        bagConstraints.fill = GridBagConstraints.CENTER;
-//        bagConstraints.gridx = 0;
-//        bagConstraints.gridy = 0;
-//        
         getContentPane().add(jpnlMain);
 
         pack();
@@ -195,47 +173,43 @@ public class CustomerDialog extends JDialog {
     };
 
     private void update() {
-        display.setAddress(txtAddress.getText());
-        display.setName(txtName.getText());
-        display.setPincode(txtPincode.getText());
-        display.setMobileNo(txtMobileNo.getText());
-        display.setStdCode((txtStdCode.getText()));
-        display.setLandline(txtLandline.getText());
-        display.setAmountBalance(txtAmountBalance.getText());
-        display.setStatus(true);
+        display.setPrice(txtPrice.getText());
+        display.setStartDate((Date) (dtpStartDate.getModel().getValue()));
+
         try {
             if (isUpdate) {
-                customerService.update(display);
+                itemService.update(display);
             } else {
-                customerService.insert(display);
+                itemService.insert(display);
             }
             dispose();
         } catch (Exception ex) {
-            Logger.getLogger(CustomerDialog.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ItemPriceModifyDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void reset() {
         if (isUpdate) {
-            loadCustomer();
+            loadItem();
         } else {
-            txtName.setText("");
-            txtAddress.setText("");
-            txtPincode.setText("");
-            txtMobileNo.setText("");
-            txtStdCode.setText("");
-            txtLandline.setText("");
-            txtAmountBalance.setText("");
+            txtPrice.setText("");
         }
     }
 
-    private void loadCustomer() {
-        txtName.setText(display.getName());
-        txtAddress.setText(display.getAddress());
-        txtPincode.setText(display.getPincode());
-        txtMobileNo.setText(display.getMobileNo());
-        txtStdCode.setText(display.getStdCode());
-        txtLandline.setText(display.getLandline());
-        txtAmountBalance.setText(display.getAmountBalance());
+    private void loadItem() {
+        txtPrice.setText(display.getPrice());
+        
+        Date startDate = display.getStartDate();
+        dtpEndDate.getModel().setDate(startDate.getYear(), startDate.getMonth(), startDate.getDate());
+
+        Date endDate = display.getStartDate();
+        dtpEndDate.getModel().setDate(endDate.getYear(), endDate.getMonth(), endDate.getDate());
+        
+    }
+
+    private JComboBox<ItemType> getItemTypComboBox() {
+        JComboBox<ItemType> comboBox = new JComboBox<>();
+        comboBox.setModel(new DefaultComboBoxModel<>(ItemType.values()));
+        return comboBox;
     }
 }

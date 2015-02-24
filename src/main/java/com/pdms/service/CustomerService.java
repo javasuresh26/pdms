@@ -5,11 +5,8 @@
  */
 package com.pdms.service;
 
-import com.pdms.domain.Customer;
-import com.pdms.utils.RequestParam;
 import com.pdms.view.CustomerDisplay;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -18,7 +15,8 @@ import java.util.Map;
 public interface CustomerService {
     void insert(CustomerDisplay customerDisplay) throws Exception;
     List<CustomerDisplay> getAll() throws Exception;
-    CustomerDisplay getCustomerDisplay(CustomerDisplay customerDisplay) throws Exception;    
+    List<CustomerDisplay> getValidAll() throws Exception;
+    CustomerDisplay getCustomerDisplay(int id) throws Exception;    
     void delete(CustomerDisplay customerDisplay) throws Exception;
     void update(CustomerDisplay customerDisplay) throws Exception;
 }

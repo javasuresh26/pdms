@@ -56,7 +56,7 @@ public class Customer extends BaseEntity implements Serializable {
     @Column(name = "amount_balance", nullable = false, scale = 2)
     private double amountBalance;
 
-    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME", updatable = false)
+    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 

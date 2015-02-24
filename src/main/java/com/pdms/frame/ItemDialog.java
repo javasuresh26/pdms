@@ -5,16 +5,16 @@
  */
 package com.pdms.frame;
 
+import com.pdms.domain.ItemType;
 import com.pdms.frame.utils.ImagePanel;
 import com.pdms.frame.utils.MdlFunctions;
 import com.pdms.frame.utils.WindowUtils;
-import com.pdms.service.CustomerService;
-import com.pdms.view.CustomerDisplay;
+import com.pdms.service.ItemService;
+import com.pdms.view.ItemDisplay;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -22,7 +22,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,100 +35,80 @@ import javax.swing.JTextField;
  *
  * @author Suresh
  */
-public class CustomerDialog extends JDialog {
-
+public class ItemDialog extends JDialog {
+    
     private WindowUtils windowUtils = new WindowUtils();
     private MdlFunctions mdlFunctions = new MdlFunctions();
-
-    private CustomerService customerService;
-    private CustomerDisplay display;
-    private final int componentCount = 7;
     
+    private ItemService itemService;
+    private ItemDisplay display;
+    
+    private final int componentCount = 3;
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-
+    
     JPanel jpnlMain = new JPanel();
     JPanel northPanel = new ImagePanel(new FlowLayout(), windowUtils.getImageIcon("images/header.gif").getImage());
     JPanel centerPanel = new JPanel();
     JPanel southPanel = new JPanel(new FlowLayout());
-
-    JLabel lblIcon = new JLabel(windowUtils.getImageIcon("images/ListBarrowers.gif"));
+    
+    JLabel lblIcon = new JLabel(windowUtils.getImageIcon("images/sections list.gif"));
     JLabel lblCaption = new JLabel("IMPORTANT: Text Fields must not empty.");
-
+    
     JButton btnUpdate = new JButton("Update", windowUtils.getImageIcon("images/save.gif"));
     JButton btnReset = new JButton("Reset", windowUtils.getImageIcon("images/reset.gif"));
     JButton btnCancel = new JButton("Cancel", windowUtils.getImageIcon("images/cancel.gif"));
-
+    
     JLabel lblName = new JLabel("Name:*");
-    JLabel lblAddress = new JLabel("Address:*");
-    JLabel lblPincode = new JLabel("Pincode:*");
-    JLabel lblMobileNo = new JLabel("MobileNo:*");
-    JLabel lblStdCode = new JLabel("StdCode:");
-    JLabel lblLandline = new JLabel("Landline:");
-    JLabel lblAmountBalance = new JLabel("AmountBalance:*");
-
+    JLabel lblType = new JLabel("Landline:");
+    JLabel lblActiveDays = new JLabel("AmountBalance:*");
+    
     JTextField txtName = new JTextField();
-    JTextField txtAddress = new JTextField();
-    JTextField txtPincode = new JTextField();
-    JTextField txtMobileNo = new JTextField();
-    JTextField txtStdCode = new JTextField();
-    JTextField txtLandline = new JTextField();
-    JTextField txtAmountBalance = new JTextField();
-
+    JComboBox<ItemType> cmbxType = getItemTypComboBox();
+    JTextField txtActiveDays = new JTextField();
+    
     boolean isUpdate;
-
-    public CustomerDialog(JFrame frame, boolean isUpdate, int customerId, CustomerService customerService) throws Exception {
-
+    
+    public ItemDialog(JFrame frame, boolean isUpdate, int itemId, ItemService itemService) throws Exception {
+        
         super(frame, true);
-        setIconImage(windowUtils.getImageIcon("images/ListBarrowers.gif").getImage());
-
-        this.customerService = customerService;
+        setIconImage(windowUtils.getImageIcon("images/sections.gif").getImage());
+        
+        this.itemService = itemService;
         this.isUpdate = isUpdate;
-
-        display = new CustomerDisplay();
-        display.setId(customerId);
-
+        
+        display = new ItemDisplay();
+        display.setId(itemId);
+        
         if (isUpdate == true) {
             btnUpdate.setText("Save");
-            display = customerService.getCustomerDisplay(display.getId());
-            loadCustomer();
-            setTitle("Edit Customer Deatils");
+            display = itemService.getItemDisplay(display.getId());
+            loadItem();
+            setTitle("Edit Item Deatils");
         } else {
-            setTitle("New Customer Deatils");
+            setTitle("New Item Deatils");
             btnUpdate.setText("Add");
         }
-
+        
         mdlFunctions.setCaptionLabel(lblCaption);
         northPanel.add(lblIcon);
         northPanel.add(lblCaption);
-
+        
         centerPanel.setLayout(new BorderLayout());
         centerPanel.setBackground(Color.WHITE);
         JPanel pnlLabel = new JPanel(new GridLayout(componentCount, 1, 1, 1));
         JPanel pnlfield = new JPanel(new GridLayout(componentCount, 1, 1, 1));
         pnlLabel.setBackground(Color.WHITE);
         pnlfield.setBackground(Color.WHITE);
-
+        
         pnlLabel.add(mdlFunctions.setJLabel(lblName));
         pnlfield.add(mdlFunctions.setJTextField(txtName));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblAddress));
-        pnlfield.add(mdlFunctions.setJTextField(txtAddress));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblPincode));
-        pnlfield.add(mdlFunctions.setJTextField(txtPincode));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblMobileNo));
-        pnlfield.add(mdlFunctions.setJTextField(txtMobileNo));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblStdCode));
-        pnlfield.add(mdlFunctions.setJTextField(txtStdCode));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblLandline));
-        pnlfield.add(mdlFunctions.setJTextField(txtLandline));
-
-        pnlLabel.add(mdlFunctions.setJLabel(lblAmountBalance));
-        pnlfield.add(mdlFunctions.setJTextField(txtAmountBalance));
-
+        
+        pnlLabel.add(mdlFunctions.setJLabel(lblType));
+        pnlfield.add(mdlFunctions.setJComboBox(cmbxType));
+        
+        pnlLabel.add(mdlFunctions.setJLabel(lblActiveDays));
+        pnlfield.add(mdlFunctions.setJTextField(txtActiveDays));
+        
         centerPanel.add(BorderLayout.WEST, pnlLabel);
         centerPanel.add(BorderLayout.EAST, pnlfield);
 
@@ -144,39 +126,29 @@ public class CustomerDialog extends JDialog {
         mdlFunctions.setJButton(btnCancel, "cancel", "CANCEL");
         btnCancel.setMnemonic(KeyEvent.VK_C);
         btnCancel.addActionListener(JBActionListener);
-
+        
         southPanel.setBackground(Color.WHITE);
         southPanel.add(btnUpdate);
         southPanel.add(btnReset);
         southPanel.add(btnCancel);
-
+        
         jpnlMain.setLayout(new BorderLayout());
         jpnlMain.setBackground(Color.WHITE);
         jpnlMain.add(northPanel, BorderLayout.PAGE_START);
         jpnlMain.add(centerPanel, BorderLayout.CENTER);
         jpnlMain.add(southPanel, BorderLayout.SOUTH);
-
-//        GridBagConstraints bagConstraints = new GridBagConstraints();
-//        bagConstraints.fill = GridBagConstraints.PAGE_START;
-//        bagConstraints.gridx = 0;
-//        bagConstraints.gridy = 0;
-//        
-//
-//        bagConstraints.fill = GridBagConstraints.CENTER;
-//        bagConstraints.gridx = 0;
-//        bagConstraints.gridy = 0;
-//        
+        
         getContentPane().add(jpnlMain);
-
+        
         pack();
         setLocation((screen.width - 325) / 2, ((screen.height - 335) / 2));
-
+        
         setResizable(false);
         setVisible(true);
     }
-
+    
     ActionListener JBActionListener = new ActionListener() {
-
+        
         @Override
         public void actionPerformed(ActionEvent ae) {
             String command = ae.getActionCommand();
@@ -193,49 +165,43 @@ public class CustomerDialog extends JDialog {
             }
         }
     };
-
+    
     private void update() {
-        display.setAddress(txtAddress.getText());
         display.setName(txtName.getText());
-        display.setPincode(txtPincode.getText());
-        display.setMobileNo(txtMobileNo.getText());
-        display.setStdCode((txtStdCode.getText()));
-        display.setLandline(txtLandline.getText());
-        display.setAmountBalance(txtAmountBalance.getText());
+        display.setType((ItemType) cmbxType.getSelectedItem());
+        display.setActiveDays(Integer.parseInt(txtActiveDays.getText()));
         display.setStatus(true);
         try {
             if (isUpdate) {
-                customerService.update(display);
+                itemService.update(display);
             } else {
-                customerService.insert(display);
+                itemService.insert(display);
             }
             dispose();
         } catch (Exception ex) {
-            Logger.getLogger(CustomerDialog.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ItemDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     private void reset() {
         if (isUpdate) {
-            loadCustomer();
+            loadItem();
         } else {
             txtName.setText("");
-            txtAddress.setText("");
-            txtPincode.setText("");
-            txtMobileNo.setText("");
-            txtStdCode.setText("");
-            txtLandline.setText("");
-            txtAmountBalance.setText("");
+            cmbxType.setSelectedItem(cmbxType.getItemAt(0));
+            txtActiveDays.setText(String.valueOf(0));
         }
     }
-
-    private void loadCustomer() {
+    
+    private void loadItem() {
         txtName.setText(display.getName());
-        txtAddress.setText(display.getAddress());
-        txtPincode.setText(display.getPincode());
-        txtMobileNo.setText(display.getMobileNo());
-        txtStdCode.setText(display.getStdCode());
-        txtLandline.setText(display.getLandline());
-        txtAmountBalance.setText(display.getAmountBalance());
+        cmbxType.setSelectedItem(display.getType());
+        txtActiveDays.setText(String.valueOf(display.getActiveDays()));
+    }
+    
+    private JComboBox<ItemType> getItemTypComboBox() {
+        JComboBox<ItemType> comboBox = new JComboBox<>();
+        comboBox.setModel(new DefaultComboBoxModel<>(ItemType.values()));
+        return comboBox;
     }
 }

@@ -31,7 +31,7 @@ public class Main {
         //sss.insert(obj);
         //System.out.println(obj);
         //System.out.println(ClassLoader.getSystemResource(""));
-        CustomerServiceImpl csi = context.getBean(CustomerServiceImpl.class);
+        
 
 //        Customer customer = new Customer();
 //        customer.setId(18);        
@@ -51,10 +51,8 @@ public class Main {
 //        customer.setLandline("04177");
         //csi.merge(customer);
         //System.out.println(csi.getByCriteria("sd%"));
-        //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
-        MainWindow mainWindow = new MainWindow(csi);
-
-    
+       // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
+        MainWindow mainWindow = new MainWindow(context);    
     
     
     

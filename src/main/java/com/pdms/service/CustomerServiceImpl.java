@@ -7,8 +7,8 @@ package com.pdms.service;
 
 import com.pdms.dao.CustomerDao;
 import com.pdms.domain.Customer;
-import com.pdms.utils.RequestParam;
-import com.pdms.utils.RequestParam.Criteria;
+import com.pdms.dao.utils.RequestParam;
+import com.pdms.dao.utils.RequestParam.CriteriaParam;
 import com.pdms.utils.Utils;
 import com.pdms.view.CustomerDisplay;
 import java.util.ArrayList;
@@ -49,6 +49,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public List<CustomerDisplay> getValidAll() {
+        RequestParam requestParam = new RequestParam();
+        CriteriaParam criteria = requestParam.createCriteria("status", true);
+        requestParam.addCriteria("eq", criteria);
+        return getCustomerDisplays(get(requestParam));
+    }
+
+    @Override
     public void delete(CustomerDisplay customerDisplay) throws Exception {
         customerDao.delete(getCustomer(customerDisplay));
     }
@@ -66,16 +74,16 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDao.get(requetParam);
     }
 
-    public CustomerDisplay getCustomerDisplay(CustomerDisplay display) {
+    public CustomerDisplay getCustomerDisplay(int id) {
         RequestParam requestParam = new RequestParam();
-        Criteria criteria = requestParam.createCriteria("id", display.getId());
+        CriteriaParam criteria = requestParam.createCriteria("id", id);
         requestParam.addCriteria("eq", criteria);
         return getCustomerDisplays(get(requestParam)).get(0);
     }
 
     public List<Customer> getByCriteria(int id) {
         RequestParam requestParam = new RequestParam();
-        Criteria criteria = requestParam.createCriteria("id", id);
+        CriteriaParam criteria = requestParam.createCriteria("id", id);
         requestParam.addCriteria("eq", criteria);
         return get(requestParam);
     }

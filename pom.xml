@@ -160,6 +160,10 @@
             <artifactId>c3p0</artifactId>
             <version>0.9.5</version>
         </dependency>
-
+        <dependency>
+            <groupId>net.sourceforge.jdatepicker</groupId>
+            <artifactId>jdatepicker</artifactId>
+            <version>1.3.2</version>
+        </dependency>
     </dependencies>
 </project>

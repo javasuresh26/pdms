@@ -5,8 +5,8 @@
  */
 package com.pdms.dao;
 
-import com.pdms.utils.RequestParam;
-import com.pdms.utils.RequestParam.Criteria;
+import com.pdms.dao.utils.RequestParam;
+import com.pdms.dao.utils.RequestParam.CriteriaParam;
 import com.pdms.utils.Utils;
 import java.util.List;
 import java.util.Map;
@@ -84,9 +84,9 @@ public abstract class BaseDao {
     protected DetachedCriteria createCriteria(RequestParam requestParam) {
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(entityClass);
 
-        Set<Entry<String, Criteria>> criterias = requestParam.getCriterias().entrySet();
-        for (Entry<String, Criteria> entry : criterias) {
-            Criteria criteria = entry.getValue();
+        Set<Entry<String, CriteriaParam>> criterias = requestParam.getCriterias().entrySet();
+        for (Entry<String, CriteriaParam> entry : criterias) {
+            CriteriaParam criteria = entry.getValue();
             switch (entry.getKey()) {
                 case "eq":
                     detachedCriteria.add(Restrictions.eq(criteria.getPropery(), criteria.getValue()));

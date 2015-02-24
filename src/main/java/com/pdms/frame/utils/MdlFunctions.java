@@ -10,6 +10,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -56,6 +57,12 @@ public class MdlFunctions {
         cbField.setFont(new Font("Dialog", Font.PLAIN, 12));
         cbField.setBackground(new Color(255, 255, 255));
         return cbField;
+    }
+    
+    public JTabbedPane setJTabbedPane(JTabbedPane jTabbedPane) {
+        jTabbedPane.setFont(new Font("Dialog", Font.PLAIN, 15));
+        jTabbedPane.setBackground(new Color(255, 255, 255));
+        return jTabbedPane;
     }
     
     public JButton setJButton(JButton bttn, int sLeft, int sTop, int sWidth, int sHeight, String setActionCmd, String srcToolTipText) {
