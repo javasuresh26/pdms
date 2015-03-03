@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pdms.view;
+package com.pdms.display;
 
 import com.pdms.domain.Customer;
 import com.pdms.utils.Utils;
@@ -26,22 +26,9 @@ public class CustomerDisplay {
     private String mobileNo;
     private String stdCode;
     private String landline;
-    private String amountBalance;
     private boolean status;
 
     public CustomerDisplay() {
-    }
-
-    public CustomerDisplay(int id, String name, String address, String pincode, String mobileNo, String stdCode, String landline, String amountBalance, boolean status) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.pincode = pincode;
-        this.mobileNo = mobileNo;
-        this.stdCode = stdCode;
-        this.landline = landline;
-        this.status = status;
-        this.amountBalance = amountBalance;
     }
 
     public CustomerDisplay(Customer customer) {
@@ -52,7 +39,6 @@ public class CustomerDisplay {
         this.mobileNo = customer.getMobileNo();
         this.stdCode = customer.getStdCode();
         this.landline = customer.getLandline();
-        this.amountBalance = Utils.getDoubleValueAsMoney(customer.getAmountBalance());
         this.status = customer.isStatus();
     }
 
@@ -112,14 +98,6 @@ public class CustomerDisplay {
         this.landline = landline;
     }
 
-    public String getAmountBalance() {
-        return amountBalance;
-    }
-
-    public void setAmountBalance(String amountBalance) {
-        this.amountBalance = amountBalance;
-    }
-
     public boolean isStatus() {
         return status;
     }
@@ -130,7 +108,7 @@ public class CustomerDisplay {
 
     @Override
     public String toString() {
-        return "CustomerDisplay{" + "id=" + id + ", name=" + name + ", address=" + address + ", pincode=" + pincode + ", mobileNo=" + mobileNo + ", stdCode=" + stdCode + ", landline=" + landline + ", amountBalance=" + amountBalance + ", status=" + status + '}';
+        return "CustomerDisplay{" + "id=" + id + ", name=" + name + ", address=" + address + ", pincode=" + pincode + ", mobileNo=" + mobileNo + ", stdCode=" + stdCode + ", landline=" + landline + ", status=" + status + '}';
     }
 
 }

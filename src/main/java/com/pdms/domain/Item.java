@@ -5,20 +5,15 @@
  */
 package com.pdms.domain;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,11 +23,10 @@ import org.hibernate.validator.constraints.Length;
  *
  * @author Suresh
  */
-
 @Entity
 @Table(name = "item")
-public class Item {
-    
+public class Item implements Serializable {
+
     @Id
     @GeneratedValue
     private int id;
@@ -40,29 +34,29 @@ public class Item {
     @Column(name = "name", nullable = false)
     @Length(max = 20)
     private String name;
-    
-    @Column(name = "type",columnDefinition = "enum('DAILYPAPER','MAGAZINE')")
+
+    @Column(name = "type", columnDefinition = "enum('DAILYPAPER','MAGAZINE')")
     @Enumerated(EnumType.STRING)
     private ItemType type;
-    
+
     @Column(name = "active_days", nullable = false)
     @Length(max = 20)
     private int activeDays;
-    
-    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME")
+
+    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
     @Column(name = "modified_date", nullable = false, columnDefinition = "DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
-    
+
     @Column(name = "status", nullable = false, columnDefinition = "TINYINT", length = 1)
     private boolean status;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "item")
-    private List<ItemPrice> itemPrices; 
-    
+    @Column(name = "price", nullable = false, scale = 2)
+    private double price;
+
     public int getId() {
         return id;
     }
@@ -95,7 +89,6 @@ public class Item {
         this.activeDays = activeDays;
     }
 
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -120,6 +113,14 @@ public class Item {
         this.status = status;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     @Override
     public boolean equals(Object o) {
         return super.equals(o); //To change body of generated methods, choose Tools | Templates.
@@ -130,17 +131,9 @@ public class Item {
         return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setItemPrices(List<ItemPrice> itemPrices) {
-        this.itemPrices = itemPrices;
-    }
-
-    public List<ItemPrice> getItemPrices() {
-        return itemPrices;
-    }
-
     @Override
     public String toString() {
-        return "Item{" + "id=" + id + ", name=" + name + ", type=" + type + ", activeDays=" + activeDays + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate + ", status=" + status + '}';
+        return "Item{" + "id=" + id + ", name=" + name + ", type=" + type + ", activeDays=" + activeDays + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate + ", status=" + status + ", price=" + price + '}';
     }
 
 }

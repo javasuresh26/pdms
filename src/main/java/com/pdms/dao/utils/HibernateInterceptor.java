@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pdms.dao;
+package com.pdms.dao.utils;
 
 import com.pdms.domain.BaseEntity;
 import com.pdms.domain.User;

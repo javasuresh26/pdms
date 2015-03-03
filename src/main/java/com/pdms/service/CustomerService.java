@@ -5,7 +5,8 @@
  */
 package com.pdms.service;
 
-import com.pdms.view.CustomerDisplay;
+import com.pdms.display.CustomerDisplay;
+import com.pdms.domain.Customer;
 import java.util.List;
 
 /**
@@ -19,4 +20,5 @@ public interface CustomerService {
     CustomerDisplay getCustomerDisplay(int id) throws Exception;    
     void delete(CustomerDisplay customerDisplay) throws Exception;
     void update(CustomerDisplay customerDisplay) throws Exception;
+    Customer getCustomer(int id);
 }

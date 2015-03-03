@@ -3,21 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pdms.view;
+package com.pdms.display;
 
 import com.pdms.domain.Item;
 import com.pdms.domain.ItemType;
+import com.pdms.utils.Utils;
 
 /**
  *
  * @author Suresh
  */
 public class ItemDisplay {
+
     private int id;
     private String name;
     private ItemType type;
     private int activeDays;
     private boolean status;
+    private String price;
 
     public ItemDisplay() {
     }
@@ -28,6 +31,7 @@ public class ItemDisplay {
         this.type = item.getType();
         this.activeDays = item.getActiveDays();
         this.status = item.isStatus();
+        this.price = Utils.getDoubleValueAsMoney(item.getPrice());
     }
 
     public int getId() {
@@ -62,7 +66,6 @@ public class ItemDisplay {
         this.activeDays = activeDays;
     }
 
-  
     public boolean isStatus() {
         return status;
     }
@@ -70,23 +73,31 @@ public class ItemDisplay {
     public void setStatus(boolean status) {
         this.status = status;
     }
-    
-    public static ItemType getItemType(String type){
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public static ItemType getItemType(String type) {
         ItemType itemType = null;
-        switch(type){
+        switch (type) {
             case "DAILYPAPER":
                 itemType = ItemType.DAILYPAPER;
                 break;
             case "MAGAZINE":
                 itemType = ItemType.MAGAZINE;
-                break;             
+                break;
         }
         return itemType;
     }
 
     @Override
     public String toString() {
-        return "ItemDisplay{" + "id=" + id + ", name=" + name + ", type=" + type + ", activeDays=" + activeDays + ", status=" + status + '}';
+        return "ItemDisplay{" + "id=" + id + ", name=" + name + ", type=" + type + ", activeDays=" + activeDays + ", status=" + status + ", price=" + price + '}';
     }
-    
+
 }

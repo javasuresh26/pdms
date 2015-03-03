@@ -10,14 +10,16 @@ import com.pdms.dao.utils.RequestParam;
 import com.pdms.domain.Item;
 import com.pdms.domain.ItemPrice;
 import com.pdms.utils.Utils;
-import com.pdms.view.ItemDisplay;
-import com.pdms.view.ItemPriceDisplay;
+import com.pdms.display.ItemDisplay;
+import com.pdms.display.ItemPriceDisplay;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -39,30 +41,33 @@ public class ItemServiceImpl implements ItemService {
         this.utils = utils;
     }
     
-    @Override
+    @Override    
     public void insert(ItemDisplay itemDisplay) throws Exception {
         itemDao.insert(getItem(itemDisplay));
     }
     
-    @Override
+    @Override    
     public List<ItemDisplay> getAll() {
         return getItemDisplays(itemDao.getAll());
     }
     
-    @Override
+    @Override    
     public List<ItemDisplay> getValidAll() {
-        RequestParam requestParam = new RequestParam();
-        RequestParam.CriteriaParam criteria = requestParam.createCriteria("status", true);
-        requestParam.addCriteria("eq", criteria);
+       RequestParam requestParam = new RequestParam();
+        HashMap<String,Object> criteria =new HashMap<>();
+        criteria.put("expression", "eq");
+        criteria.put("property","status");
+        criteria.put("value",true);
+        requestParam.addCriteria(criteria);
         return getItemDisplays(get(requestParam));
     }
     
-    @Override
+    @Override    
     public void delete(ItemDisplay itemDisplay) throws Exception {
         itemDao.delete(getItem(itemDisplay));
     }
     
-    @Override
+    @Override    
     public void update(ItemDisplay itemDisplay) {
         try {
             itemDao.update(getItem(itemDisplay));
@@ -75,18 +80,18 @@ public class ItemServiceImpl implements ItemService {
         return itemDao.get(requetParam);
     }
     
-    @Override
+    @Override    
     public ItemDisplay getItemDisplay(int id) {
-        RequestParam requestParam = new RequestParam();
-        RequestParam.CriteriaParam criteria = requestParam.createCriteria("id", id);
-        requestParam.addCriteria("eq", criteria);
-        return getItemDisplays(get(requestParam)).get(0);
+        return getItemDisplays(getByCriteria(id)).get(0);
     }
     
     public List<Item> getByCriteria(int id) {
         RequestParam requestParam = new RequestParam();
-        RequestParam.CriteriaParam criteria = requestParam.createCriteria("id", id);
-        requestParam.addCriteria("eq", criteria);
+        HashMap<String,Object> criteria =new HashMap<>();
+        criteria.put("expression", "eq");
+        criteria.put("property","id");
+        criteria.put("value",id);
+        requestParam.addCriteria(criteria);
         return get(requestParam);
     }
     
@@ -97,6 +102,7 @@ public class ItemServiceImpl implements ItemService {
         item.setName(itemDisplay.getName());
         item.setType(itemDisplay.getType());
         item.setStatus(itemDisplay.isStatus());
+        item.setPrice(Double.parseDouble(itemDisplay.getPrice()));
         return item;
     }
     
@@ -107,19 +113,6 @@ public class ItemServiceImpl implements ItemService {
             //System.out.println(item.getItemPrices());
         }
         return itemDisplays;
-    }
-    
-    @Override
-    public List<ItemPriceDisplay> getItemPriceDisplays(int itemId){
-        Item item =getByCriteria(itemId).get(0);
-        List<ItemPrice> itemPrices =item.getItemPrices();
-        List<ItemPriceDisplay> itemPriceDisplays = new ArrayList<>();
-        
-        for(ItemPrice itemPrice: itemPrices){
-            itemPriceDisplays.add(new ItemPriceDisplay(itemPrice));
-        }
-        
-        return itemPriceDisplays;
     }
     
 }

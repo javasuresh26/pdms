@@ -6,6 +6,7 @@
 package com.pdms.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -46,5 +47,16 @@ public class DateUtils {
     
     public static DateFormat getDateFormat(){
        return new SimpleDateFormat("yyyy-MM-dd");
+    }
+    
+    public static String getDateAsString(Date date){
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");        
+        return format.format(date);
+    }
+    
+    public static Date getDatefromString(String date) throws Exception{
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+        format.setLenient(false);
+        return format.parse(date);
     }
 }

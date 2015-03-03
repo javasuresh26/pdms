@@ -11,11 +11,12 @@ import com.pdms.frame.utils.MdlFunctions;
 import com.pdms.frame.utils.WindowUtils;
 import com.pdms.service.CustomerService;
 import com.pdms.utils.Utils;
-import com.pdms.view.CustomerDisplay;
+import com.pdms.display.CustomerDisplay;
+import com.pdms.frame.utils.ServiceFactory;
+import com.pdms.service.InvoiceService;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,7 +32,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableModel;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -46,9 +46,10 @@ public class CustomerPanel extends JPanel {
 
     private Utils utils = new Utils();
     private CustomerService customerService;    
-
-    public static JScrollPane jSPCustomer = new JScrollPane();
-    public static JTable jtblCustomer;
+    private InvoiceService invoiceService;
+    
+    public JScrollPane jSPCustomer = new JScrollPane();
+    public JTable jtblCustomer;
 
     //JButton Variables
     JButton btnAddNew = new JButton("Add New", windowUtils.getImageIcon("images/add new.gif"));
@@ -57,12 +58,14 @@ public class CustomerPanel extends JPanel {
     JButton btnSearch = new JButton("Search", windowUtils.getImageIcon("images/search.gif"));
     JButton btnPreview = new JButton("Preview", windowUtils.getImageIcon("images/preview.gif"));
     JButton btnRefresh = new JButton("Refresh", windowUtils.getImageIcon("images/refresh.gif"));
-    JButton btnExit = new JButton("Cancel", windowUtils.getImageIcon("images/cancel.gif"));
+    JButton btnInvoice = new JButton("Invoice Details", windowUtils.getImageIcon("images/cancel.gif"));
 
 
 
-    public CustomerPanel(JFrame frame, CustomerService customerService) {
-        this.customerService = customerService;
+    public CustomerPanel(JFrame frame) {
+        
+        this.customerService = ServiceFactory.getCustomerService();
+        this.invoiceService = ServiceFactory.getInvoiceService();
         this.frame = frame;
         setBackground(Color.WHITE);
         setLayout(null);
@@ -109,9 +112,9 @@ public class CustomerPanel extends JPanel {
         btnRefresh.setMnemonic(KeyEvent.VK_F);
         btnRefresh.addActionListener(actionListener);
 
-        mdlFunctions.setJButton(btnExit,  "exit", "Unload Form");
-        btnExit.setMnemonic(KeyEvent.VK_C);
-        btnExit.addActionListener(actionListener);
+        mdlFunctions.setJButton(btnInvoice,  "invoice", "Invoice Details");
+        btnInvoice.setMnemonic(KeyEvent.VK_I);
+        btnInvoice.addActionListener(actionListener);
         
         
         //Add Icon
@@ -132,7 +135,7 @@ public class CustomerPanel extends JPanel {
         southPanel.add(btnSearch);
         southPanel.add(btnPreview);
         southPanel.add(btnRefresh);
-        southPanel.add(btnExit);
+        southPanel.add(btnInvoice);
         
         
         setLayout(new BorderLayout());
@@ -186,7 +189,8 @@ public class CustomerPanel extends JPanel {
                 case "refresh":
                     loadTable();
                     break;
-                case "exit":
+                case "invoice":
+                    invoice();
                     break;
             }
         }
@@ -256,6 +260,27 @@ public class CustomerPanel extends JPanel {
                         JOptionPane.ERROR_MESSAGE);
 
             }
+        }
+    }
+    
+    private void invoice(){
+        try {
+            CollectionResultTableModel tableModel = (CollectionResultTableModel) jtblCustomer.getModel();
+
+            int selectedRow = jtblCustomer.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(null,
+                        "Please Select any one record", "Error Message",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int columnIndex = tableModel.getColumnIndex("Id");
+            int id = (Integer) jtblCustomer.getValueAt(selectedRow, columnIndex);
+            CustomerDisplay customerDisplay = customerService.getCustomerDisplay(id);
+            CustomerInvoiceDialog invoiceDialog = new CustomerInvoiceDialog(frame, invoiceService,customerDisplay);
+           
+        } catch (Exception ex) {
+            Logger.getLogger(CustomerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

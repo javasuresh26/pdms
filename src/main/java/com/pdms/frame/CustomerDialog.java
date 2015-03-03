@@ -9,7 +9,7 @@ import com.pdms.frame.utils.ImagePanel;
 import com.pdms.frame.utils.MdlFunctions;
 import com.pdms.frame.utils.WindowUtils;
 import com.pdms.service.CustomerService;
-import com.pdms.view.CustomerDisplay;
+import com.pdms.display.CustomerDisplay;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -62,7 +62,6 @@ public class CustomerDialog extends JDialog {
     JLabel lblMobileNo = new JLabel("MobileNo:*");
     JLabel lblStdCode = new JLabel("StdCode:");
     JLabel lblLandline = new JLabel("Landline:");
-    JLabel lblAmountBalance = new JLabel("AmountBalance:*");
 
     JTextField txtName = new JTextField();
     JTextField txtAddress = new JTextField();
@@ -70,7 +69,6 @@ public class CustomerDialog extends JDialog {
     JTextField txtMobileNo = new JTextField();
     JTextField txtStdCode = new JTextField();
     JTextField txtLandline = new JTextField();
-    JTextField txtAmountBalance = new JTextField();
 
     boolean isUpdate;
 
@@ -124,8 +122,7 @@ public class CustomerDialog extends JDialog {
         pnlLabel.add(mdlFunctions.setJLabel(lblLandline));
         pnlfield.add(mdlFunctions.setJTextField(txtLandline));
 
-        pnlLabel.add(mdlFunctions.setJLabel(lblAmountBalance));
-        pnlfield.add(mdlFunctions.setJTextField(txtAmountBalance));
+
 
         centerPanel.add(BorderLayout.WEST, pnlLabel);
         centerPanel.add(BorderLayout.EAST, pnlfield);
@@ -201,7 +198,6 @@ public class CustomerDialog extends JDialog {
         display.setMobileNo(txtMobileNo.getText());
         display.setStdCode((txtStdCode.getText()));
         display.setLandline(txtLandline.getText());
-        display.setAmountBalance(txtAmountBalance.getText());
         display.setStatus(true);
         try {
             if (isUpdate) {
@@ -225,7 +221,6 @@ public class CustomerDialog extends JDialog {
             txtMobileNo.setText("");
             txtStdCode.setText("");
             txtLandline.setText("");
-            txtAmountBalance.setText("");
         }
     }
 
@@ -236,6 +231,5 @@ public class CustomerDialog extends JDialog {
         txtMobileNo.setText(display.getMobileNo());
         txtStdCode.setText(display.getStdCode());
         txtLandline.setText(display.getLandline());
-        txtAmountBalance.setText(display.getAmountBalance());
     }
 }

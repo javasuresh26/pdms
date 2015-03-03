@@ -10,7 +10,7 @@ import com.pdms.frame.utils.ImagePanel;
 import com.pdms.frame.utils.MdlFunctions;
 import com.pdms.frame.utils.WindowUtils;
 import com.pdms.service.ItemService;
-import com.pdms.view.ItemDisplay;
+import com.pdms.display.ItemDisplay;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -43,7 +43,7 @@ public class ItemDialog extends JDialog {
     private ItemService itemService;
     private ItemDisplay display;
     
-    private final int componentCount = 3;
+    private final int componentCount = 4;
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
     
     JPanel jpnlMain = new JPanel();
@@ -59,12 +59,14 @@ public class ItemDialog extends JDialog {
     JButton btnCancel = new JButton("Cancel", windowUtils.getImageIcon("images/cancel.gif"));
     
     JLabel lblName = new JLabel("Name:*");
-    JLabel lblType = new JLabel("Landline:");
-    JLabel lblActiveDays = new JLabel("AmountBalance:*");
+    JLabel lblType = new JLabel("Type:*");
+    JLabel lblActiveDays = new JLabel("ActiveDays:*");
+    JLabel lblPrice = new JLabel("Price:*");
     
     JTextField txtName = new JTextField();
     JComboBox<ItemType> cmbxType = getItemTypComboBox();
     JTextField txtActiveDays = new JTextField();
+    JTextField txtPrice = new JTextField();
     
     boolean isUpdate;
     
@@ -108,6 +110,9 @@ public class ItemDialog extends JDialog {
         
         pnlLabel.add(mdlFunctions.setJLabel(lblActiveDays));
         pnlfield.add(mdlFunctions.setJTextField(txtActiveDays));
+        
+        pnlLabel.add(mdlFunctions.setJLabel(lblPrice));
+        pnlfield.add(mdlFunctions.setJTextField(txtPrice));
         
         centerPanel.add(BorderLayout.WEST, pnlLabel);
         centerPanel.add(BorderLayout.EAST, pnlfield);
@@ -170,6 +175,7 @@ public class ItemDialog extends JDialog {
         display.setName(txtName.getText());
         display.setType((ItemType) cmbxType.getSelectedItem());
         display.setActiveDays(Integer.parseInt(txtActiveDays.getText()));
+        display.setPrice(txtPrice.getText());
         display.setStatus(true);
         try {
             if (isUpdate) {
@@ -190,6 +196,7 @@ public class ItemDialog extends JDialog {
             txtName.setText("");
             cmbxType.setSelectedItem(cmbxType.getItemAt(0));
             txtActiveDays.setText(String.valueOf(0));
+            txtPrice.setText("0");
         }
     }
     
@@ -197,6 +204,7 @@ public class ItemDialog extends JDialog {
         txtName.setText(display.getName());
         cmbxType.setSelectedItem(display.getType());
         txtActiveDays.setText(String.valueOf(display.getActiveDays()));
+        txtPrice.setText(display.getPrice());
     }
     
     private JComboBox<ItemType> getItemTypComboBox() {

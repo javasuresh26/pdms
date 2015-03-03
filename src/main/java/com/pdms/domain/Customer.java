@@ -53,10 +53,7 @@ public class Customer extends BaseEntity implements Serializable {
     @Length(max = 10)
     private String landline;
 
-    @Column(name = "amount_balance", nullable = false, scale = 2)
-    private double amountBalance;
-
-    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME")
+    @Column(name = "created_date", nullable = false, columnDefinition = "DATETIME",updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
@@ -64,7 +61,7 @@ public class Customer extends BaseEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
 
-    @Column(name = "createdby",length = 50)
+    @Column(name = "createdby",length = 50,updatable = false)
     @Length(max = 50)
     private String createdBy;
 
@@ -85,7 +82,6 @@ public class Customer extends BaseEntity implements Serializable {
         this.mobileNo = mobileNo;
         this.stdCode = stdCode;
         this.landline = landline;
-        this.amountBalance = amountBalance;
         this.status = status;
     }
 
@@ -145,14 +141,6 @@ public class Customer extends BaseEntity implements Serializable {
         this.landline = landline;
     }
 
-    public double getAmountBalance() {
-        return amountBalance;
-    }
-
-    public void setAmountBalance(double amountBalance) {
-        this.amountBalance = amountBalance;
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -205,7 +193,7 @@ public class Customer extends BaseEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer{" + "id=" + id + ", name=" + name + ", address=" + address + ", pincode=" + pincode + ", mobileNo=" + mobileNo + ", stdCode=" + stdCode + ", landline=" + landline + ", amountBalance=" + amountBalance + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate + ", createdBy=" + createdBy + ", modifiedBy=" + modifiedBy + ", status=" + status + '}';
+        return "Customer{" + "id=" + id + ", name=" + name + ", address=" + address + ", pincode=" + pincode + ", mobileNo=" + mobileNo + ", stdCode=" + stdCode + ", landline=" + landline + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate + ", createdBy=" + createdBy + ", modifiedBy=" + modifiedBy + ", status=" + status + '}';
     }
 
     

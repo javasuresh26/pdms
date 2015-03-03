@@ -12,8 +12,8 @@ import com.pdms.frame.utils.WindowUtils;
 import com.pdms.service.ItemService;
 import com.pdms.utils.DateUtils;
 import static com.pdms.utils.DateUtils.getJDatePicker;
-import com.pdms.view.ItemDisplay;
-import com.pdms.view.ItemPriceDisplay;
+import com.pdms.display.ItemDisplay;
+import com.pdms.display.ItemPriceDisplay;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -87,7 +87,7 @@ public class ItemPriceModifyDialog extends JDialog {
 
         if (isUpdate == true) {
             btnUpdate.setText("Save");
-            display = itemService.getItemDisplay(display.getId());
+            //display = itemService.getItemDisplay(display.getId());
             loadItem();
             setTitle("Edit Item Price Deatils");
         } else {
@@ -178,9 +178,9 @@ public class ItemPriceModifyDialog extends JDialog {
 
         try {
             if (isUpdate) {
-                itemService.update(display);
+                //itemService.update(display);
             } else {
-                itemService.insert(display);
+               // itemService.insert(display);
             }
             dispose();
         } catch (Exception ex) {

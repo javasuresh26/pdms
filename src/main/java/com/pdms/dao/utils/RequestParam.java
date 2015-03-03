@@ -5,6 +5,7 @@
  */
 package com.pdms.dao.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,41 +16,15 @@ import java.util.Map;
  */
 public class RequestParam {
 
-    Map<String, CriteriaParam> criterias = new HashMap<>();
-    
-    public void addCriteria(String propertyParam, CriteriaParam criteria){
-        criterias.put(propertyParam, criteria);
-    }
+    //Map<String, CriteriaParam> criterias = new HashMap<>();
+    List<Map<String, Object>> criterias = new ArrayList<>();
 
-    public Map<String, CriteriaParam> getCriterias() {
+    public List<Map<String, Object>> getCriterias() {
         return criterias;
     }
-    
-    public CriteriaParam createCriteria(String propery, Object value){
-       return new CriteriaParam(propery, value);
-    } 
-    
-    public class CriteriaParam {
-        String propery;
-        Object value;
-        
-        public CriteriaParam(String propery, Object value){
-            this.propery = propery;
-            this.value = value;
-        }
 
-        public String getPropery() {
-            return propery;
-        }
-
-        public Object getValue() {
-            return value;
-        }
-
-        public void setValue(Object value) {
-            this.value = value;
-        }
-        
+    public void addCriteria(Map<String, Object> criteria) {
+        criterias.add(criteria);
     }
-
+    
 }

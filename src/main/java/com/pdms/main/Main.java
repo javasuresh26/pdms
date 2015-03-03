@@ -31,8 +31,6 @@ public class Main {
         //sss.insert(obj);
         //System.out.println(obj);
         //System.out.println(ClassLoader.getSystemResource(""));
-        
-
 //        Customer customer = new Customer();
 //        customer.setId(18);        
 //        csi.delete(customer);
@@ -42,16 +40,16 @@ public class Main {
 //            System.out.println(customer);
 //        }
 //        Customer customer = customers.get(0);
-//        
+//
 //        customer.setId(19);        
 //        csi.update(customer);
-        
 //        Customer customer  = new Customer();
 //        customer.setId(19);
 //        customer.setLandline("04177");
         //csi.merge(customer);
         //System.out.println(csi.getByCriteria("sd%"));
-       // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
+        // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        //CustomerServiceImpl customerService = context.getBean(CustomerServiceImpl.class);
         MainWindow mainWindow = new MainWindow(context);    
     
     

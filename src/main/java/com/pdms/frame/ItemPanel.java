@@ -11,7 +11,7 @@ import com.pdms.frame.utils.MdlFunctions;
 import com.pdms.frame.utils.WindowUtils;
 import com.pdms.service.ItemService;
 import com.pdms.utils.Utils;
-import com.pdms.view.ItemDisplay;
+import com.pdms.display.ItemDisplay;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -263,7 +263,7 @@ public class ItemPanel extends JPanel {
             int columnIndex = tableModel.getColumnIndex("Id");
             int id = (Integer) jtblItem.getValueAt(selectedRow, columnIndex);
 
-            ItemPriceDialog itemPriceDialog = new ItemPriceDialog(frame, id, itemService);
+            //CustomerInvoiceDialog itemPriceDialog = new CustomerInvoiceDialog(frame, id, itemService);
             loadTable();
         } catch (Exception ex) {
             Logger.getLogger(ItemPanel.class.getName()).log(Level.SEVERE, null, ex);

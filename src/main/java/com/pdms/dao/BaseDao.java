@@ -6,7 +6,7 @@
 package com.pdms.dao;
 
 import com.pdms.dao.utils.RequestParam;
-import com.pdms.dao.utils.RequestParam.CriteriaParam;
+import com.pdms.domain.Customer;
 import com.pdms.utils.Utils;
 import java.util.List;
 import java.util.Map;
@@ -71,59 +71,71 @@ public abstract class BaseDao {
         hibernateTemplate.merge(obj);
 
     }
-    
-    protected List get(RequestParam requestParam) {  
+
+    protected List get(RequestParam requestParam) {
         DetachedCriteria detachedCriteria = createCriteria(requestParam);
         return hibernateTemplate.findByCriteria(detachedCriteria);
     }
+
     protected List get(RequestParam requestParam, int firstResult, int maxResults) {
         DetachedCriteria detachedCriteria = createCriteria(requestParam);
         return hibernateTemplate.findByCriteria(detachedCriteria, firstResult, maxResults);
     }
-    
+
     protected DetachedCriteria createCriteria(RequestParam requestParam) {
         DetachedCriteria detachedCriteria = DetachedCriteria.forClass(entityClass);
 
-        Set<Entry<String, CriteriaParam>> criterias = requestParam.getCriterias().entrySet();
-        for (Entry<String, CriteriaParam> entry : criterias) {
-            CriteriaParam criteria = entry.getValue();
-            switch (entry.getKey()) {
+        List<Map<String, Object>> criterias = requestParam.getCriterias();
+        for (Map<String, Object> criteria : criterias) {
+            String property;
+            String expression = String.valueOf(criteria.get("expression"));
+            switch (expression) {
                 case "eq":
-                    detachedCriteria.add(Restrictions.eq(criteria.getPropery(), criteria.getValue()));
+                    property = String.valueOf(criteria.get("property"));
+                    detachedCriteria.add(Restrictions.eq(property, criteria.get("value")));
                     break;
                 case "gt":
-                    detachedCriteria.add(Restrictions.gt(criteria.getPropery(), criteria.getValue()));
+                    property = String.valueOf(criteria.get("property"));
+                    detachedCriteria.add(Restrictions.gt(property, criteria.get("value")));
                     break;
                 case "ge":
-                    detachedCriteria.add(Restrictions.ge(criteria.getPropery(), criteria.getValue()));
+                    property = String.valueOf(criteria.get("property"));
+                    detachedCriteria.add(Restrictions.ge(property, criteria.get("value")));
                     break;
                 case "lt":
-                    detachedCriteria.add(Restrictions.lt(criteria.getPropery(), criteria.getValue()));
+                    property = String.valueOf(criteria.get("property"));
+                    detachedCriteria.add(Restrictions.lt(property, criteria.get("value")));
                     break;
                 case "le":
-                    detachedCriteria.add(Restrictions.le(criteria.getPropery(), criteria.getValue()));
+                    property = String.valueOf(criteria.get("property"));
+                    detachedCriteria.add(Restrictions.le(property, criteria.get("value")));
                     break;
                 case "isNull":
-                    detachedCriteria.add(Restrictions.isNull(criteria.getPropery()));
+                    property = String.valueOf(criteria.get("property"));
+                    detachedCriteria.add(Restrictions.isNull(property));
                     break;
                 case "isNotNull":
-                    detachedCriteria.add(Restrictions.isNotNull(criteria.getPropery()));
+                    property = String.valueOf(criteria.get("property"));
+                    detachedCriteria.add(Restrictions.isNotNull(property));
                     break;
                 case "like":
-                    detachedCriteria.add(Restrictions.like(criteria.getPropery(), criteria.getValue()));
+                    property = String.valueOf(criteria.get("property"));
+                    detachedCriteria.add(Restrictions.like(property, criteria.get("value")));
                     break;
                 case "between":
-                    List betweenList = (List) criteria.getValue();
-                    detachedCriteria.add(Restrictions.between(criteria.getPropery(), betweenList.get(0), betweenList.get(1)));
+                    property = String.valueOf(criteria.get("property"));
+                    List betweenList = (List) criteria.get("values");
+                    detachedCriteria.add(Restrictions.between(property, betweenList.get(0), betweenList.get(1)));
                     break;
                 case "orderBy":
-                    String orderBy = String.valueOf(criteria.getValue());
-                    switch (orderBy) {
+                    property = String.valueOf(criteria.get("property"));
+                    String value = String.valueOf(criteria.get("value"));
+                    switch (value) {
                         case "asc":
-                            detachedCriteria.addOrder(Order.asc(entry.getKey()));
+                            detachedCriteria.addOrder(Order.asc(property));
                             break;
                         case "desc":
-                            detachedCriteria.addOrder(Order.desc(entry.getKey()));
+                            detachedCriteria.addOrder(Order.desc(property));
                             break;
                     }
                     break;
@@ -131,7 +143,6 @@ public abstract class BaseDao {
         }
         return detachedCriteria;
     }
-
 
     protected void flush() {
         SessionFactory sessionFactory = hibernateTemplate.getSessionFactory();

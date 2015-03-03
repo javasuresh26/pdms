@@ -8,15 +8,16 @@ package com.pdms.service;
 import com.pdms.dao.CustomerDao;
 import com.pdms.domain.Customer;
 import com.pdms.dao.utils.RequestParam;
-import com.pdms.dao.utils.RequestParam.CriteriaParam;
 import com.pdms.utils.Utils;
-import com.pdms.view.CustomerDisplay;
+import com.pdms.display.CustomerDisplay;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -38,30 +39,33 @@ public class CustomerServiceImpl implements CustomerService {
         this.utils = utils;
     }
 
-    @Override
+    @Override    
     public void insert(CustomerDisplay customerDisplay) throws Exception {
         customerDao.insert(getCustomer(customerDisplay));
     }
 
-    @Override
+    @Override    
     public List<CustomerDisplay> getAll() {
         return getCustomerDisplays(customerDao.getAll());
     }
 
-    @Override
+    @Override    
     public List<CustomerDisplay> getValidAll() {
         RequestParam requestParam = new RequestParam();
-        CriteriaParam criteria = requestParam.createCriteria("status", true);
-        requestParam.addCriteria("eq", criteria);
+        HashMap<String,Object> criteria =new HashMap<>();
+        criteria.put("expression", "eq");
+        criteria.put("property","status");
+        criteria.put("value",true);
+        requestParam.addCriteria(criteria);
         return getCustomerDisplays(get(requestParam));
     }
 
-    @Override
+    @Override    
     public void delete(CustomerDisplay customerDisplay) throws Exception {
         customerDao.delete(getCustomer(customerDisplay));
     }
 
-    @Override
+    @Override    
     public void update(CustomerDisplay customerDisplay) {
         try {
             customerDao.update(getCustomer(customerDisplay));
@@ -69,22 +73,28 @@ public class CustomerServiceImpl implements CustomerService {
             Logger.getLogger(CustomerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     private List<Customer> get(RequestParam requetParam) {
         return customerDao.get(requetParam);
     }
 
+    @Override
     public CustomerDisplay getCustomerDisplay(int id) {
-        RequestParam requestParam = new RequestParam();
-        CriteriaParam criteria = requestParam.createCriteria("id", id);
-        requestParam.addCriteria("eq", criteria);
-        return getCustomerDisplays(get(requestParam)).get(0);
+        return getCustomerDisplays(getByCriteria(id)).get(0);
     }
 
+    @Override
+    public Customer getCustomer(int id) {
+        return getByCriteria(id).get(0);
+    }
+    
     public List<Customer> getByCriteria(int id) {
         RequestParam requestParam = new RequestParam();
-        CriteriaParam criteria = requestParam.createCriteria("id", id);
-        requestParam.addCriteria("eq", criteria);
+        HashMap<String,Object> criteria =new HashMap<>();
+        criteria.put("expression", "eq");
+        criteria.put("property","id");
+        criteria.put("value",id);
+        requestParam.addCriteria(criteria);      
         return get(requestParam);
     }
 
@@ -92,7 +102,6 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = utils.createInstance(Customer.class);
         customer.setId(customerDisplay.getId());
         customer.setAddress(customerDisplay.getAddress());
-        customer.setAmountBalance(Double.parseDouble(customerDisplay.getAmountBalance()));
         customer.setStdCode(customerDisplay.getStdCode());
         customer.setLandline(customerDisplay.getLandline());
         customer.setMobileNo(customerDisplay.getMobileNo());
