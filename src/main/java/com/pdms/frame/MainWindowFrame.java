@@ -87,9 +87,7 @@ public class MainWindowFrame extends JFrame {
        
     }
 
-    public static void main(String[] args) throws Exception {
-        //new MainWindowFrame();
-    }
+   
 
     private void loadJson() {
 

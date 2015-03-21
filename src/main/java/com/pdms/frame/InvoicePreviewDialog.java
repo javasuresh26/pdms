@@ -6,11 +6,10 @@
 package com.pdms.frame;
 
 import com.pdms.display.InvoiceDisplay;
-import com.pdms.display.ItemDisplay;
-import com.pdms.frame.utils.CollectionResultTableModel;
 import com.pdms.frame.utils.ImagePanel;
 import com.pdms.frame.utils.MdlFunctions;
 import com.pdms.frame.utils.WindowUtils;
+import com.pdms.print.InvoicePrint;
 import com.pdms.service.InvoiceService;
 import com.pdms.utils.Utils;
 import java.awt.BorderLayout;
@@ -21,19 +20,12 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -50,7 +42,7 @@ public class InvoicePreviewDialog extends JDialog {
     private InvoicePreviewDemoPanel demoPanel;
 
     //JButton Variables
-   
+    JButton btnPrint = new JButton("Print", windowUtils.getImageIcon("images/switch.gif"));
     JButton btnClose = new JButton("Close", windowUtils.getImageIcon("images/cancel.gif"));
 
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -60,7 +52,6 @@ public class InvoicePreviewDialog extends JDialog {
         super(dialog, true);
         this.invoiceDisplay = invoiceDisplay;
 
-        
         loadTitle();
         setIconImage(windowUtils.getImageIcon("images/price.gif").getImage());
 
@@ -76,7 +67,9 @@ public class InvoicePreviewDialog extends JDialog {
         demoPanel = new InvoicePreviewDemoPanel(invoiceDisplay);
         demoPanel.setBackground(Color.WHITE);
 
-
+        mdlFunctions.setJButton(btnPrint, "print", "Print");
+        btnPrint.setMnemonic(KeyEvent.VK_P);
+        btnPrint.addActionListener(actionListener);
 
         mdlFunctions.setJButton(btnClose, "exit", "Close");
         btnClose.setMnemonic(KeyEvent.VK_C);
@@ -87,9 +80,8 @@ public class InvoicePreviewDialog extends JDialog {
         northPanel.add(lblCaption);
 
         //centerPanel.add(demoPanel);
-
         southPanel.setBackground(Color.WHITE);
-
+        southPanel.add(btnPrint);
         southPanel.add(btnClose);
 
         jpnlMain.setLayout(new BorderLayout());
@@ -106,7 +98,6 @@ public class InvoicePreviewDialog extends JDialog {
         setVisible(true);
     }
 
-
     ActionListener actionListener = new ActionListener() {
 
         @Override
@@ -116,12 +107,23 @@ public class InvoicePreviewDialog extends JDialog {
                 case "exit":
                     dispose();
                     break;
+                case "print":
+                    print();
+                    break;
             }
         }
     };
 
-   
-    private void loadTitle() throws Exception {       
-        setTitle("Invoice Preview: "+invoiceDisplay.getCustomerDisplay().getName());
+    private void print() {
+        InvoicePrint print = new InvoicePrint(invoiceDisplay);
+        try {
+            print.generatePDF();
+        } catch (Exception ex) {
+            Logger.getLogger(InvoicePreviewDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void loadTitle() throws Exception {
+        setTitle("Invoice Preview: " + invoiceDisplay.getCustomerDisplay().getName());
     }
 }

@@ -26,7 +26,7 @@ public class WindowUtils {
     }
 
     public ImageIcon getImageIcon(String image) {
-        return new ImageIcon(ClassLoader.getSystemResource((image)));
+        return new ImageIcon(ClassLoader.getSystemResource(image));
     }
 //    public static void main(String[] args) {
 //        WindowUtils utils=new WindowUtils();

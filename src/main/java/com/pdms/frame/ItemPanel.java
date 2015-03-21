@@ -12,6 +12,7 @@ import com.pdms.frame.utils.WindowUtils;
 import com.pdms.service.ItemService;
 import com.pdms.utils.Utils;
 import com.pdms.display.ItemDisplay;
+import com.pdms.frame.utils.ServiceFactory;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -55,10 +56,10 @@ public class ItemPanel extends JPanel {
     JButton btnSearch = new JButton("Search", windowUtils.getImageIcon("images/search.gif"));
     JButton btnPreview = new JButton("Preview", windowUtils.getImageIcon("images/preview.gif"));
     JButton btnRefresh = new JButton("Refresh", windowUtils.getImageIcon("images/refresh.gif"));
-    JButton btnItemPrice = new JButton("Item Price", windowUtils.getImageIcon("images/price.gif"));
+    JButton btnCancel = new JButton("Cancel", windowUtils.getImageIcon("images/cancel.gif"));
 
-    public ItemPanel(JFrame frame, ItemService itemService) {
-        this.itemService = itemService;
+    public ItemPanel(JFrame frame) {
+        this.itemService = ServiceFactory.getItemService();
         this.frame = frame;
         setBackground(Color.WHITE);
         setLayout(null);
@@ -103,9 +104,9 @@ public class ItemPanel extends JPanel {
         btnRefresh.setMnemonic(KeyEvent.VK_F);
         btnRefresh.addActionListener(actionListener);
 
-        mdlFunctions.setJButton(btnItemPrice, "itemPrice", "Item Price List");
-        btnItemPrice.setMnemonic(KeyEvent.VK_I);
-        btnItemPrice.addActionListener(actionListener);
+        mdlFunctions.setJButton(btnCancel, "cancel", "Cancel");
+        btnCancel.setMnemonic(KeyEvent.VK_C);
+        btnCancel.addActionListener(actionListener);
 
         //Add Icon
         //add(lblIcon);
@@ -122,7 +123,7 @@ public class ItemPanel extends JPanel {
         southPanel.add(btnSearch);
         southPanel.add(btnPreview);
         southPanel.add(btnRefresh);
-        southPanel.add(btnItemPrice);
+        southPanel.add(btnCancel);
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -175,8 +176,8 @@ public class ItemPanel extends JPanel {
                 case "refresh":
                     loadTable();
                     break;
-                case "itemPrice":
-                    loadItemPrice();
+                case "cancel":
+                    //loadItemPrice();
                     break;
             }
         }

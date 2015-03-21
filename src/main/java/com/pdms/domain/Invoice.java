@@ -58,7 +58,7 @@ public class Invoice {
     @Column(name = "discount", nullable = false, scale = 2)
     private double discount;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL},mappedBy = "invoice")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "invoice")
     List<InvoiceItem> invoiceItems;
 
     public int getId() {

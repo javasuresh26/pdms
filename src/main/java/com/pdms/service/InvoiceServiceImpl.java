@@ -53,19 +53,24 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceDao.insert(getInvoice(invoiceDisplay));
     }
 
-    @Override
+    @Transactional
     public List<InvoiceDisplay> getAll(int customerId) throws Exception {
+        Customer customer = getCustomer(customerId);
+        return getInvoiceDisplays(getAll(customer));
+    }
+
+    public List<Invoice> getAll(Customer customer) throws Exception {
         RequestParam requestParam = new RequestParam();
         HashMap<String, Object> criteria = new HashMap<>();
         criteria.put("expression", "eq");
-        criteria.put("property", "customer.id");
-        criteria.put("value", customerId);
+        criteria.put("property", "customer");
+        criteria.put("value", customer);
         requestParam.addCriteria(criteria);
-        return getInvoiceDisplays(get(requestParam));
+        return get(requestParam);
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public InvoiceDisplay getInvoiceDisplay(int invoiceId) throws Exception {
         RequestParam requestParam = new RequestParam();
         HashMap<String, Object> criteria = new HashMap<>();
@@ -78,6 +83,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private List<InvoiceDisplay> getInvoiceDisplays(List<Invoice> invoices) {
         List<InvoiceDisplay> invoiceDisplays = new ArrayList<>();
+        System.out.println(invoices);
         for (Invoice invoice : invoices) {
             invoiceDisplays.add(new InvoiceDisplay(invoice));
         }
@@ -88,6 +94,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return new InvoiceDisplay(invoice);
     }
 
+    
     private List<Invoice> get(RequestParam requetParam) {
         return invoiceDao.get(requetParam);
     }

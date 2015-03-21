@@ -15,6 +15,6 @@ import java.util.List;
  */
 public interface InvoiceService {
     void insert(InvoiceDisplay invoiceDisplay) throws Exception;  
-    List<InvoiceDisplay> getAll(int customerId) throws Exception;
+    //List<InvoiceDisplay> getAll(int customerId) throws Exception;
     InvoiceDisplay getInvoiceDisplay(int invoiceId) throws Exception;    
 }

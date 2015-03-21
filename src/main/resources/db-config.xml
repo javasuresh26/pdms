@@ -49,7 +49,7 @@
     </bean>  
     
     <!-- Allow declarative transaction management using the @Transactional annotation -->
-    <tx:annotation-driven transaction-manager="txnManager"/>
+    <tx:annotation-driven transaction-manager="txnManager" proxy-target-class="true"/>
     
     <!-- Apply persistence exception translation on @Repository classes -->
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>

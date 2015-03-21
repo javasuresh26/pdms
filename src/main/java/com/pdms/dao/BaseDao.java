@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -122,6 +123,10 @@ public abstract class BaseDao {
                     property = String.valueOf(criteria.get("property"));
                     detachedCriteria.add(Restrictions.like(property, criteria.get("value")));
                     break;
+                case "distinct":
+                    property = String.valueOf(criteria.get("property"));
+                    detachedCriteria.setProjection(Projections.distinct(Projections.property(property)));
+                    break;
                 case "between":
                     property = String.valueOf(criteria.get("property"));
                     List betweenList = (List) criteria.get("values");
@@ -148,5 +153,6 @@ public abstract class BaseDao {
         SessionFactory sessionFactory = hibernateTemplate.getSessionFactory();
         Session session = sessionFactory.getCurrentSession();
         session.flush();
+        session.clear();
     }
 }

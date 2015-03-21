@@ -7,6 +7,7 @@ package com.pdms.frame.utils;
 
 import com.pdms.service.CustomerService;
 import com.pdms.service.InvoiceService;
+import com.pdms.service.InvoiceServiceImpl;
 import com.pdms.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,7 +23,7 @@ public class ServiceFactory {
     
     private static CustomerService customerService;   
     private static ItemService itemService;    
-    private static InvoiceService invoiceService;
+    private static InvoiceServiceImpl invoiceService;
     
     
     public static CustomerService getCustomerService() {
@@ -44,12 +45,12 @@ public class ServiceFactory {
         ServiceFactory.itemService = itemService;
     }
 
-    public static InvoiceService getInvoiceService() {
+    public static InvoiceServiceImpl getInvoiceService() {
         return invoiceService;
     }
     
     @Autowired
-    public static void setInvoiceService(InvoiceService invoiceService) {
+    public static void setInvoiceService(InvoiceServiceImpl invoiceService) {
         ServiceFactory.invoiceService = invoiceService;
     }
 

@@ -18,6 +18,7 @@ import com.pdms.display.ItemPriceDisplay;
 import com.pdms.frame.utils.TableColumnAdjuster;
 import com.pdms.service.CustomerService;
 import com.pdms.service.InvoiceService;
+import com.pdms.service.InvoiceServiceImpl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -50,7 +51,7 @@ public class CustomerInvoiceDialog extends JDialog {
     private MdlFunctions mdlFunctions = new MdlFunctions();
 
     private Utils utils = new Utils();
-    private InvoiceService invoiceService;
+    private InvoiceServiceImpl invoiceService;
 
     public static JScrollPane jSPInvoice = new JScrollPane();
     public static JTable jtblInvoice;
@@ -63,7 +64,7 @@ public class CustomerInvoiceDialog extends JDialog {
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
     private CustomerDisplay customerDisplay;
-    public CustomerInvoiceDialog(JFrame frame, InvoiceService invoiceService, CustomerDisplay customerDisplay) throws Exception {
+    public CustomerInvoiceDialog(JFrame frame, InvoiceServiceImpl invoiceService, CustomerDisplay customerDisplay) throws Exception {
         super(frame, true);
         this.invoiceService = invoiceService;
         this.customerDisplay = customerDisplay;

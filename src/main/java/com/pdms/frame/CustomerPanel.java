@@ -14,6 +14,7 @@ import com.pdms.utils.Utils;
 import com.pdms.display.CustomerDisplay;
 import com.pdms.frame.utils.ServiceFactory;
 import com.pdms.service.InvoiceService;
+import com.pdms.service.InvoiceServiceImpl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -46,7 +47,7 @@ public class CustomerPanel extends JPanel {
 
     private Utils utils = new Utils();
     private CustomerService customerService;    
-    private InvoiceService invoiceService;
+    private InvoiceServiceImpl invoiceService;
     
     public JScrollPane jSPCustomer = new JScrollPane();
     public JTable jtblCustomer;

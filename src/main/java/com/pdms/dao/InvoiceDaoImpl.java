@@ -26,19 +26,16 @@ public class InvoiceDaoImpl extends BaseDao implements InvoiceDao{
     }
 
     @Override
-    @Transactional
     public void insert(Invoice invoice) throws Exception {
         super.insert(invoice);
     }
 
     @Override
-    @Transactional
     public List<Invoice> getAll() {
         return (List<Invoice>) super.getAll();
     }   
 
     @Override
-    @Transactional
     public List<Invoice> get(RequestParam requestParam) {
         return (List<Invoice>) super.get(requestParam);
     }

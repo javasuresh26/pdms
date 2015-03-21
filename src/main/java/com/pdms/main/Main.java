@@ -7,6 +7,7 @@ package com.pdms.main;
 
 import com.pdms.frame.MainWindow;
 import com.pdms.service.CustomerServiceImpl;
+import com.pdms.service.InvoiceServiceImpl;
 import javax.swing.UIManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -23,7 +24,7 @@ public class Main {
     
     public static void main(String args[]) throws Exception {
         //Session session = HibernateUtil.getSessionFactory().openSession();
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         //new MainWindowFrame();
         //CustomerDaoImpl sss = new CustomerDaoImpl();
         //Customer obj = new Customer();
@@ -49,7 +50,8 @@ public class Main {
         //csi.merge(customer);
         //System.out.println(csi.getByCriteria("sd%"));
         // UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        //CustomerServiceImpl customerService = context.getBean(CustomerServiceImpl.class);
+        InvoiceServiceImpl invoiceServiceImpl = context.getBean(InvoiceServiceImpl.class);
+        
         MainWindow mainWindow = new MainWindow(context);    
     
     

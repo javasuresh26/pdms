@@ -42,7 +42,7 @@ private WindowUtils windowUtils = new WindowUtils();
 
     //JButton Variables
     JButton btnAddNew = new JButton("Generate Invoice", windowUtils.getImageIcon("images/add new.gif"));
-    JButton btnExit = new JButton("Closed", windowUtils.getImageIcon("images/cancel.gif"));
+    JButton btnExit = new JButton("Close", windowUtils.getImageIcon("images/cancel.gif"));
 
     Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
